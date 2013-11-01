@@ -1,0 +1,30 @@
+     1                                   sys_Exit       equ     1 ;id codigos del sistema
+     2                                  
+     3                                   global _start
+     4                                   extern printf
+     5                                  
+     6                                  segment .data
+     7 00000000 4269656E76656E6964-             msgBienv:       db      'Bienvenido a la practica de organizacion de computadores', 0AH
+     8 00000009 6F2061206C61207072-
+     9 00000012 616374696361206465-
+    10 0000001B 206F7267616E697A61-
+    11 00000024 63696F6E2064652063-
+    12 0000002D 6F6D70757461646F72-
+    13 00000036 65730A             
+    14                                  
+    15                                   segment .text
+    16                                  
+    17                                  _start: 
+    18 00000000 48BF-                   mov rdi, msgBienv ; rdi gets the first argument (a pointer)
+    19 00000002 [0000000000000000] 
+    20 0000000A 48B800000000000000-     mov rax, 0 
+    21 00000013 00                 
+    22 00000014 E8(00000000)            call printf
+    23                                  inter:
+    24 00000019 EB00                    jmp Exit
+    25                                  
+    26                                  
+    27                                   Exit: 
+    28 0000001B B801000000                      mov     eax, sys_Exit
+    29 00000020 BB00000000                      mov     ebx, 0
+    30 00000025 CD80                            int     80H
