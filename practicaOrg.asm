@@ -4,8 +4,9 @@
  extern printf
 
 segment .data
-        msgBienv:	db	'Bienvenido a la practica de organizacion de computadores', 0AH
-        arreglo:	dd	12,32,34,23,4,234,34,5,345,34,5,34,5
+        msgBienv:	db	'Bienvenido a la practica de organizacion de computadores', 0AH,0
+        arreglo:	dd	185113,32,34,23,4,234,34,5,345,34,5,34,5
+        tamArreglo: dd 	52;13*4
         formatoDec: db '%d', 0AH,0
 		format:		db '%d', 0AH,0
 
@@ -22,20 +23,21 @@ mov rdi, msgBienv ; rdi gets the first argument (a pointer)
 	
 
 	mov	eax, 0
-	mov	ebx, 5
+	mov dword rsi, [arreglo + eax]
+	mov	ebx, [tamArreglo]
 		ciclo1:
 	push rax
 	push rbx
 	cmp	eax,ebx	
 	jge finciclo1
-		mov dword rsi, rax
+		mov dword rsi, [arreglo + eax]
 		mov rdi, formatoDec 
 		mov eax, 0
 			inter:
 		call printf
 		pop rbx
 		pop rax
-		inc  rax
+		add  rax,4
 	jmp ciclo1
 	finciclo1:
 
