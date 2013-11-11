@@ -3,87 +3,106 @@
      3                                   global _start
      4                                   extern dprintf
      5                                   extern printf
-     6                                  
-     7                                  segment .data
-     8 00000000 4269656E76656E6964-             msgBienv:	db	'Bienvenido a la practica de organizacion de computadores', 0AH,0
-     9 00000009 6F2061206C61207072-
-    10 00000012 616374696361206465-
-    11 0000001B 206F7267616E697A61-
-    12 00000024 63696F6E2064652063-
-    13 0000002D 6F6D70757461646F72-
-    14 00000036 65730A00           
-    15 0000003A 19D302002000000022-             arreglo:	dd	185113,32,34,23,4,234,34,5,345,34,5,34,5
-    16 00000043 000000170000000400-
-    17 0000004C 0000EA000000220000-
-    18 00000055 000500000059010000-
-    19 0000005E 220000000500000022-
-    20 00000067 00000005000000     
-    21 0000006E 34000000                        tamArreglo: dd 	52;13*4
-    22 00000072 25640A00                        formatoDec: db '%d', 0AH,0
-    23 00000076 657374652065732075-             formatoDec2: db 'este es un numero %d y este es otro %d y otro %d y otro %d y otro %d', 0AH,0
-    24 0000007F 6E206E756D65726F20-
-    25 00000088 256420792065737465-
-    26 00000091 206573206F74726F20-
-    27 0000009A 25642079206F74726F-
-    28 000000A3 2025642079206F7472-
-    29 000000AC 6F2025642079206F74-
-    30 000000B5 726F2025640A00     
-    31                                  
-    32                                  
-    33                                  segment .bss
-    34 00000000 <res 00000008>                  temp:	resq 1
+     6                                   extern funcion
+     7                                  
+     8                                  segment .data
+     9 00000000 4269656E76656E6964-             msgBienv:	db	'Bienvenido a la practica de organizacion de computadores', 0AH,0
+    10 00000009 6F2061206C61207072-
+    11 00000012 616374696361206465-
+    12 0000001B 206F7267616E697A61-
+    13 00000024 63696F6E2064652063-
+    14 0000002D 6F6D70757461646F72-
+    15 00000036 65730A00           
+    16 0000003A 19D302002000000022-             arreglo:	dd	185113,32,34,23,4,234,34,5,345,34,5,34,5
+    17 00000043 000000170000000400-
+    18 0000004C 0000EA000000220000-
+    19 00000055 000500000059010000-
+    20 0000005E 220000000500000022-
+    21 00000067 00000005000000     
+    22 0000006E 34000000                        tamArreglo: dd 	52;13*4
+    23 00000072 25640A00                        formatoDec: db '%d', 0AH,0
+    24 00000076 657374652065732075-             formatoDec2: db 'este es un numero %d y este es otro %d y otro %d y otro %d y otro %d', 0AH,0
+    25 0000007F 6E206E756D65726F20-
+    26 00000088 256420792065737465-
+    27 00000091 206573206F74726F20-
+    28 0000009A 25642079206F74726F-
+    29 000000A3 2025642079206F7472-
+    30 000000AC 6F2025642079206F74-
+    31 000000B5 726F2025640A00     
+    32 000000BC 25730A00                        formatoString: db '%s', 0AH,0
+    33 000000C0 73616C6964612E7478-             archivoNombre: db 'salida.txt',0AH,0;para intentar poner el output en un archivo con fprintf
+    34 000000C9 740A00             
     35                                  
-    36                                   segment .text
-    37                                  
-    38                                  _start: 
-    39 00000000 48BF-                   mov rdi, msgBienv ; rdi lleva el primer argumento (puntero)
-    40 00000002 [0000000000000000] 
-    41 0000000A B800000000              	mov rax, 0 
-    42 0000000F E8(00000000)            	call printf
-    43                                  	
-    44                                  
-    45 00000014 B800000000              	mov	eax, 0
-    46 00000019 67488BB0[3A000000]      	mov dword rsi, [arreglo + eax]
-    47 00000021 8B1C25[6E000000]        	mov	ebx, [tamArreglo]
-    48                                  		ciclo1:
-    49 00000028 50                      	push rax
-    50 00000029 53                      	push rbx
-    51 0000002A 39D8                    	cmp	eax,ebx	
-    52 0000002C 7D24                    	jge finciclo1
-    53 0000002E 48BF-                   		mov rdi, formatoDec 
-    54 00000030 [7200000000000000] 
-    55 00000038 67488BB0[3A000000]      		mov dword rsi, [arreglo + eax]
-    56 00000040 B800000000              		mov eax, 0
-    57 00000045 E8(00000000)            		call printf
-    58 0000004A 5B                      		pop rbx
-    59 0000004B 58                      		pop rax
-    60 0000004C 4883C004                		add  rax,4
-    61 00000050 EBD6                    	jmp ciclo1
-    62                                  	finciclo1:
-    63                                  
-    64 00000052 BF01000000              	mov rdi, 1
-    65 00000057 48BE-                   	mov dword rsi, formatoDec2
-    66 00000059 [7600000000000000] 
-    67                                  	;mov rdi, formatoDec2;
-    68                                  	;mov dword rsi, [arreglo]
-    69 00000061 488B1425[3E000000]      	mov dword rdx, [arreglo + 4]
-    70 00000069 488B0C25[42000000]      	mov dword rcx, [arreglo + 8]
-    71 00000071 4C8B0425[46000000]      	mov dword r8, [arreglo + 12]
-    72 00000079 4C8B0C25[4A000000]      	mov dword r9, [arreglo + 16]
-    73                                  	;de necesitar mas se usa la pila
-    74 00000081 E8(00000000)            	call dprintf
-    75                                  	;call printf
-    76                                  
-    77                                  inter:
-    78                                  
-    79 00000086 EB00                    jmp Exit
+    36                                  
+    37                                  segment .bss
+    38 00000000 <res 00000008>                  temp:	resq 1
+    39                                  
+    40                                   segment .text
+    41                                  
+    42                                  _start: 
+    43 00000000 48BF-                   mov rdi, msgBienv ; rdi lleva el primer argumento (puntero)
+    44 00000002 [0000000000000000] 
+    45 0000000A B800000000              	mov rax, 0 
+    46 0000000F E8(00000000)            	call printf
+    47                                  	
+    48                                  
+    49 00000014 B800000000              	mov	eax, 0
+    50 00000019 67488BB0[3A000000]      	mov dword rsi, [arreglo + eax]
+    51 00000021 8B1C25[6E000000]        	mov	ebx, [tamArreglo]
+    52                                  		ciclo1:
+    53 00000028 50                      	push rax
+    54 00000029 53                      	push rbx
+    55 0000002A 39D8                    	cmp	eax,ebx	
+    56 0000002C 7D24                    	jge finciclo1
+    57 0000002E 48BF-                   		mov rdi, formatoDec 
+    58 00000030 [7200000000000000] 
+    59 00000038 67488BB0[3A000000]      		mov dword rsi, [arreglo + eax]
+    60 00000040 B800000000              		mov eax, 0
+    61 00000045 E8(00000000)            		call printf
+    62 0000004A 5B                      		pop rbx
+    63 0000004B 58                      		pop rax
+    64 0000004C 4883C004                		add  rax,4
+    65 00000050 EBD6                    	jmp ciclo1
+    66                                  	finciclo1:
+    67                                  
+    68                                  	;mov rdi, 1
+    69                                  	;mov dword rsi, formatoDec2
+    70 00000052 48BF-                   	mov rdi, formatoDec2;
+    71 00000054 [7600000000000000] 
+    72 0000005C 488B3425[3A000000]      	mov dword rsi, [arreglo]
+    73 00000064 488B1425[3E000000]      	mov dword rdx, [arreglo + 4]
+    74 0000006C 488B0C25[42000000]      	mov dword rcx, [arreglo + 8]
+    75 00000074 4C8B0425[46000000]      	mov dword r8, [arreglo + 12]
+    76 0000007C 4C8B0C25[4A000000]      	mov dword r9, [arreglo + 16]
+    77                                  	;de necesitar mas se usa la pila
+    78                                  	;call dprintf
+    79 00000084 E8(00000000)            	call printf
     80                                  
-    81                                  
-    82                                   Exit: 
-    83 00000088 B801000000                      mov     eax, sys_Exit
-    84 0000008D BB00000000                      mov     ebx, 0
-    85 00000092 CD80                            int     80H
-    86                                  
+    81 00000089 E8(00000000)            	call funcion
+    82 0000008E 4889C6                  		mov dword rsi, rax
+    83 00000091 48BF-                   		mov rdi, formatoDec 
+    84 00000093 [7200000000000000] 
+    85 0000009B B800000000              		mov eax, 0
+    86 000000A0 E8(00000000)            		call printf
     87                                  
-    88                                  
+    88 000000A5 E8(00000000)            	call funcion
     89                                  
+    90 000000AA 4889C6                  		mov dword rsi, rax
+    91 000000AD 48BF-                   		mov rdi, formatoString 
+    92 000000AF [BC00000000000000] 
+    93 000000B7 B800000000              		mov eax, 0
+    94 000000BC E8(00000000)            		call printf
+    95                                  
+    96                                  inter:
+    97                                  
+    98 000000C1 EB00                    jmp Exit
+    99                                  
+   100                                  
+   101                                   Exit: 
+   102 000000C3 B801000000                      mov     eax, sys_Exit
+   103 000000C8 BB00000000                      mov     ebx, 0
+   104 000000CD CD80                            int     80H
+   105                                  
+   106                                  
+   107                                  
+   108                                  

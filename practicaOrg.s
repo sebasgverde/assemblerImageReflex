@@ -3,6 +3,7 @@
  global _start
  extern dprintf
  extern printf
+ extern funcion
 
 segment .data
         msgBienv:	db	'Bienvenido a la practica de organizacion de computadores', 0AH,0
@@ -10,6 +11,8 @@ segment .data
         tamArreglo: dd 	52;13*4
         formatoDec: db '%d', 0AH,0
         formatoDec2: db 'este es un numero %d y este es otro %d y otro %d y otro %d y otro %d', 0AH,0
+        formatoString: db '%s', 0AH,0
+        archivoNombre: db 'salida.txt',0AH,0;para intentar poner el output en un archivo con fprintf
 
 
 segment .bss
@@ -41,17 +44,30 @@ mov rdi, msgBienv ; rdi lleva el primer argumento (puntero)
 	jmp ciclo1
 	finciclo1:
 
-	mov rdi, 1
-	mov dword rsi, formatoDec2
-	;mov rdi, formatoDec2;
-	;mov dword rsi, [arreglo]
+	;mov rdi, 1
+	;mov dword rsi, formatoDec2
+	mov rdi, formatoDec2;
+	mov dword rsi, [arreglo]
 	mov dword rdx, [arreglo + 4]
 	mov dword rcx, [arreglo + 8]
 	mov dword r8, [arreglo + 12]
 	mov dword r9, [arreglo + 16]
 	;de necesitar mas se usa la pila
-	call dprintf
-	;call printf
+	;call dprintf
+	call printf
+
+	call funcion
+		mov dword rsi, rax
+		mov rdi, formatoDec 
+		mov eax, 0
+		call printf
+
+	call funcion
+
+		mov dword rsi, rax
+		mov rdi, formatoString 
+		mov eax, 0
+		call printf
 
 inter:
 
