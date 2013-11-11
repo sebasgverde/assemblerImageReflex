@@ -3,7 +3,6 @@
  global _start
  extern dprintf
  extern printf
- extern funcion
 
 segment .data
         msgBienv:	db	'Bienvenido a la practica de organizacion de computadores', 0AH,0
@@ -42,15 +41,17 @@ mov rdi, msgBienv ; rdi lleva el primer argumento (puntero)
 	jmp ciclo1
 	finciclo1:
 
-	mov rdi, formatoDec2;
-	mov dword rsi, [arreglo]
+	mov rdi, 1
+	mov dword rsi, formatoDec2
+	;mov rdi, formatoDec2;
+	;mov dword rsi, [arreglo]
 	mov dword rdx, [arreglo + 4]
 	mov dword rcx, [arreglo + 8]
 	mov dword r8, [arreglo + 12]
 	mov dword r9, [arreglo + 16]
 	;de necesitar mas se usa la pila
-	call printf
-
+	call dprintf
+	;call printf
 
 inter:
 
