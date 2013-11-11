@@ -1,14 +1,16 @@
  sys_Exit       equ     1 ;id codigos del sistema
 
  global _start
+ extern dprintf
  extern printf
+ extern funcion
 
 segment .data
         msgBienv:	db	'Bienvenido a la practica de organizacion de computadores', 0AH,0
         arreglo:	dd	185113,32,34,23,4,234,34,5,345,34,5,34,5
         tamArreglo: dd 	52;13*4
         formatoDec: db '%d', 0AH,0
-		format:		db '%d', 0AH,0
+        formatoDec2: db 'este es un numero %d y este es otro %d y otro %d y otro %d y otro %d', 0AH,0
 
 
 segment .bss
@@ -17,7 +19,7 @@ segment .bss
  segment .text
 
 _start: 
-mov rdi, msgBienv ; rdi gets the first argument (a pointer)
+mov rdi, msgBienv ; rdi lleva el primer argumento (puntero)
 	mov rax, 0 
 	call printf
 	
@@ -30,10 +32,9 @@ mov rdi, msgBienv ; rdi gets the first argument (a pointer)
 	push rbx
 	cmp	eax,ebx	
 	jge finciclo1
-		mov dword rsi, [arreglo + eax]
 		mov rdi, formatoDec 
+		mov dword rsi, [arreglo + eax]
 		mov eax, 0
-			inter:
 		call printf
 		pop rbx
 		pop rax
@@ -41,6 +42,17 @@ mov rdi, msgBienv ; rdi gets the first argument (a pointer)
 	jmp ciclo1
 	finciclo1:
 
+	mov rdi, formatoDec2;
+	mov dword rsi, [arreglo]
+	mov dword rdx, [arreglo + 4]
+	mov dword rcx, [arreglo + 8]
+	mov dword r8, [arreglo + 12]
+	mov dword r9, [arreglo + 16]
+	;de necesitar mas se usa la pila
+	call printf
+
+
+inter:
 
 jmp Exit
 

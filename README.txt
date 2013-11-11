@@ -17,9 +17,20 @@ http://opencv.wikispaces.com/3)+First+Sample+Programç
 
 http://linux4research.blogspot.com/2007/06/compile-cpp-with-opencv.html
 
+http://www.ozbotz.org/opencv-installation-2-3-1/
+
+http://docs.opencv.org/doc/tutorials/introduction/linux_install/linux_install.html
+
+http://namhuy.net/1205/how-to-install-opencv-on-ubuntu.html
+
+http://desarrollophpsenior.wordpress.com/2012/09/19/instalar-opencv-2-4-2-en-ubuntu-12-04-lts/
+
 gdb
 http://www.csee.umbc.edu/portal/help/nasm/nasm.shtml
 
 http://myweb.lmu.edu/dondi/share/sp/nasm64.pdf
 
+http://www.nasm.us/doc/nasmdo11.html
+
+paso de parametros y llamadas a c en asm64
 http://www.nasm.us/doc/nasmdo11.html

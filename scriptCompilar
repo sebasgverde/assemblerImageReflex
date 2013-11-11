@@ -11,10 +11,11 @@
 rm practicaOrg.o
 rm practicaOrg
 rm practicaOrg.lst
-nasm -f elf64 -l practicaOrg.lst practicaOrg.asm
+nasm -f elf64 -l practicaOrg.lst practicaOrg.s
+gcc -c other.c
 #ld -m elf_i386 practicaOrg.o -o practicaOrg `/usr/include/stdio.h`
 #ld -m elf_x86_64 practicaOrg.o -o practicaOrg
-gcc -g -nostartfiles -o practicaOrg practicaOrg.o 
+gcc -g -nostartfiles -o practicaOrg practicaOrg.o other.o
 ./practicaOrg
 
 
