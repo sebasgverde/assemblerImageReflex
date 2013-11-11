@@ -4,6 +4,8 @@
  extern dprintf
  extern printf
  extern funcion
+ extern sumando
+ extern llamarSumar
 
 segment .data
         msgBienv:	db	'Bienvenido a la practica de organizacion de computadores', 0AH,0
@@ -27,7 +29,7 @@ mov rdi, msgBienv ; rdi lleva el primer argumento (puntero)
 	
 
 	mov	eax, 0
-	mov dword rsi, [arreglo + eax]
+	mov qword rsi, [arreglo + eax]
 	mov	ebx, [tamArreglo]
 		ciclo1:
 	push rax
@@ -35,7 +37,7 @@ mov rdi, msgBienv ; rdi lleva el primer argumento (puntero)
 	cmp	eax,ebx	
 	jge finciclo1
 		mov rdi, formatoDec 
-		mov dword rsi, [arreglo + eax]
+		mov qword rsi, [arreglo + eax]
 		mov eax, 0
 		call printf
 		pop rbx
@@ -47,29 +49,41 @@ mov rdi, msgBienv ; rdi lleva el primer argumento (puntero)
 	;mov rdi, 1
 	;mov dword rsi, formatoDec2
 	mov rdi, formatoDec2;
-	mov dword rsi, [arreglo]
-	mov dword rdx, [arreglo + 4]
-	mov dword rcx, [arreglo + 8]
-	mov dword r8, [arreglo + 12]
-	mov dword r9, [arreglo + 16]
+	mov qword rsi, [arreglo]
+	mov qword rdx, [arreglo + 4]
+	mov qword rcx, [arreglo + 8]
+	mov qword r8, [arreglo + 12]
+	mov qword r9, [arreglo + 16]
 	;de necesitar mas se usa la pila
 	;call dprintf
 	call printf
 
 	call funcion
-		mov dword rsi, rax
+		mov qword rsi, rax
 		mov rdi, formatoDec 
 		mov eax, 0
 		call printf
 
 	call funcion
-
-		mov dword rsi, rax
+inter:
+		mov qword rsi, rax
 		mov rdi, formatoString 
 		mov eax, 0
 		call printf
 
-inter:
+	mov rdi, 2;
+	mov qword rsi, 3
+	call sumando
+	mov qword rsi, rax
+	mov rdi, formatoDec 
+	mov eax, 0
+	call printf
+
+	call llamarSumar
+	mov qword rsi, rax
+	mov rdi, formatoDec 
+	mov eax, 0
+	call printf
 
 jmp Exit
 
