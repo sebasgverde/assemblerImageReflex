@@ -1,9 +1,9 @@
 
 all: test
 
-INVOICECFLAGS=`pkg-config --cflags glib-2.0`
+INVOICECFLAGS=`pkg-config --cflags opencv`
 INVOICECFLAGS += -g 
-INVOICELIBS=`pkg-config --libs glib-2.0` -lyaml -pthread
+INVOICELIBS=`pkg-config --libs opencv`
 
 test: test.o
 	$(CC) -g -o $@ $< $(INVOICELIBS)
