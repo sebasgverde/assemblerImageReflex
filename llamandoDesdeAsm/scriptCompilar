@@ -8,15 +8,15 @@
 #en emacs usar las consolas con ctrl-x-2 para dividir
 # alt-x eshell y alt-x term
 
-rm practicaOrg.o
-rm practicaOrg
-rm practicaOrg.lst
-nasm -f elf64 -l practicaOrg.lst practicaOrg.s
+rm variosLlamados.o
+rm variosLlamados
+rm variosLlamados.lst
+nasm -f elf64 -l variosLlamados.lst variosLlamados.s
 gcc -c other.c
 #ld -m elf_i386 practicaOrg.o -o practicaOrg `/usr/include/stdio.h`
 #ld -m elf_x86_64 practicaOrg.o -o practicaOrg
-gcc -g -nostartfiles -o practicaOrg practicaOrg.o other.o
-./practicaOrg
+gcc -g -nostartfiles -o variosLlamados variosLlamados.o other.o
+./variosLlamados
 
 
 

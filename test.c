@@ -4,8 +4,11 @@
 #include <cv.h>
 #include <highgui.h>
  
- 
-int main(int argc, char *argv[])
+ //char *argv[3];
+
+ //argv[1] = "images.jpg"
+ //argv[2] = "nueva.jpg";
+void invertir()
 {
   IplImage* img = 0;
   int height,width,step,channels;
@@ -13,9 +16,9 @@ int main(int argc, char *argv[])
   int i,j,k;
  
   // load an image
-  img=cvLoadImage(argv[1],1);
+  img=cvLoadImage("images.jpeg",1);
   if(!img){
-    printf("Could not load image file: %s\n",argv[1]);
+    printf("Could not load image file:\n");
     exit(0);
   }
  
@@ -52,7 +55,7 @@ int main(int argc, char *argv[])
     p[2] = 0;
 
 
-  cvSaveImage(argv[2],img,p);
+  cvSaveImage("nueva.jpg",img,p);
   cvShowImage("example2", img );
  
   // wait for a key
@@ -61,5 +64,4 @@ int main(int argc, char *argv[])
   // release the image
   cvReleaseImage(&img );
   cvDestroyWindow("example2");
-  return 0;
-}
+ }

@@ -6,6 +6,7 @@
  extern funcion
  extern sumando
  extern llamarSumar
+ extern invertir
 
 segment .data
         msgBienv:	db	'Bienvenido a la practica de organizacion de computadores', 0AH,0
@@ -23,67 +24,7 @@ segment .bss
  segment .text
 
 _start: 
-mov rdi, msgBienv ; rdi lleva el primer argumento (puntero)
-	mov rax, 0 
-	call printf
-	
-
-	mov	eax, 0
-	mov qword rsi, [arreglo + eax]
-	mov	ebx, [tamArreglo]
-		ciclo1:
-	push rax
-	push rbx
-	cmp	eax,ebx	
-	jge finciclo1
-		mov rdi, formatoDec 
-		mov qword rsi, [arreglo + eax]
-		mov eax, 0
-		call printf
-		pop rbx
-		pop rax
-		add  rax,4
-	jmp ciclo1
-	finciclo1:
-
-	;mov rdi, 1
-	;mov dword rsi, formatoDec2
-	mov rdi, formatoDec2;
-	mov qword rsi, [arreglo]
-	mov qword rdx, [arreglo + 4]
-	mov qword rcx, [arreglo + 8]
-	mov qword r8, [arreglo + 12]
-	mov qword r9, [arreglo + 16]
-	;de necesitar mas se usa la pila
-	;call dprintf
-	call printf
-
-	call funcion
-		mov qword rsi, rax
-		mov rdi, formatoDec 
-		mov eax, 0
-		call printf
-
-	call funcion
-inter:
-		mov qword rsi, rax
-		mov rdi, formatoString 
-		mov eax, 0
-		call printf
-
-	mov rdi, 2;
-	mov qword rsi, 3
-	call sumando
-	mov qword rsi, rax
-	mov rdi, formatoDec 
-	mov eax, 0
-	call printf
-
-	call llamarSumar
-	mov qword rsi, rax
-	mov rdi, formatoDec 
-	mov eax, 0
-	call printf
+call invertir
 
 jmp Exit
 
