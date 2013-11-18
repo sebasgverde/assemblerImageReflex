@@ -8,7 +8,7 @@
 
  //argv[1] = "images.jpg"
  //argv[2] = "nueva.jpg";
-void invertir()
+void invertir(char* origen, char* destino)
 {
   IplImage* img = 0;
   int height,width,step,channels;
@@ -16,7 +16,7 @@ void invertir()
   int i,j,k;
  
   // load an image
-  img=cvLoadImage("images.jpeg",1);
+  img=cvLoadImage(origen,1);
   if(!img){
     printf("Could not load image file:\n");
     exit(0);
@@ -55,7 +55,7 @@ void invertir()
     p[2] = 0;
 
 
-  cvSaveImage("nueva.jpg",img,p);
+  cvSaveImage(destino,img,p);
   cvShowImage("example2", img );
  
   // wait for a key

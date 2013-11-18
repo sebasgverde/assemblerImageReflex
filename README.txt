@@ -48,3 +48,8 @@ gcc `pkg-config --cflags opencv` -o test logo1.c `pkg-config --libs opencv`
 
 
 http://www.cs.iit.edu/~agam/cs512/lect-notes/opencv-intro/opencv-intro.html#SECTION00020000000000000000
+
+argumentos
+http://www.dreamincode.net/forums/topic/285550-nasm-linux-getting-command-line-parameters/
+en 64:
+http://stackoverflow.com/questions/3683144/linux-64-command-line-parameters-in-assembly
