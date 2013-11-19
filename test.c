@@ -8,6 +8,29 @@
 
  //argv[1] = "images.jpg"
  //argv[2] = "nueva.jpg";
+
+IplImage* devStruct(char* origen, char* destino)
+{
+    IplImage* img = 0;
+  int height,width,step,channels;
+  uchar *data;
+  int i,j,k;
+ 
+  // load an image
+  img=cvLoadImage(origen,1);
+  if(!img){
+    printf("Could not load image file:\n");
+    exit(0);
+  }
+  height    = img->height;
+  width     = img->width;
+  step      = img->widthStep;
+  channels  = img->nChannels;
+  data      = (uchar *)img->imageData;
+  printf("Processing a %dx%d image with %d channels with step %d\n",height,width,channels,step);
+
+  return img;
+}
 void invertir(char* origen, char* destino)
 {
   IplImage* img = 0;
@@ -31,8 +54,8 @@ void invertir(char* origen, char* destino)
   printf("Processing a %dx%d image with %d channels with step %d\n",height,width,channels,step);
 
   // create a window
-  cvNamedWindow("example2", CV_WINDOW_AUTOSIZE);
-  cvMoveWindow("example2", 100, 100);    // to move the window to position 100 100.
+  cvNamedWindow(destino, CV_WINDOW_AUTOSIZE);
+  cvMoveWindow(destino, 100, 100);    // to move the window to position 100 100.
  
   // invert the image
   for(i=0;i<height;i++)
@@ -56,12 +79,12 @@ void invertir(char* origen, char* destino)
 
 
   cvSaveImage(destino,img,p);
-  cvShowImage("example2", img );
+  cvShowImage(destino, img );
  
   // wait for a key
   cvWaitKey(0);
  
   // release the image
   cvReleaseImage(&img );
-  cvDestroyWindow("example2");
+  cvDestroyWindow(destino);
  }
