@@ -51,7 +51,6 @@ void invertir(char* origen, char* destino)
   step      = img->widthStep;
   channels  = img->nChannels;
   data      = (uchar *)img->imageData;
-  printf("Processing a %dx%d image with %d channels with step %d\n",height,width,channels,step);
 
   // create a window
   cvNamedWindow(destino, CV_WINDOW_AUTOSIZE);
