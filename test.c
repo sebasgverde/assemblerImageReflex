@@ -9,12 +9,9 @@
  //argv[1] = "images.jpg"
  //argv[2] = "nueva.jpg";
 
-IplImage* devStruct(char* origen, char* destino)
+IplImage* devStruct(char* origen)
 {
-    IplImage* img = 0;
-  int height,width,step,channels;
-  uchar *data;
-  int i,j,k;
+  IplImage* img = 0;
  
   // load an image
   img=cvLoadImage(origen,1);
@@ -22,53 +19,36 @@ IplImage* devStruct(char* origen, char* destino)
     printf("Could not load image file:\n");
     exit(0);
   }
-  height    = img->height;
-  width     = img->width;
-  step      = img->widthStep;
-  channels  = img->nChannels;
-  data      = (uchar *)img->imageData;
-  printf("Processing a %dx%d image with %d channels with step %d\n",height,width,channels,step);
 
   return img;
 }
-void invertir(char* origen, char* destino)
-{
-  IplImage* img = 0;
-  int height,width,step,channels;
-  uchar *data;
-  int i,j,k;
- 
-  // load an image
-  img=cvLoadImage(origen,1);
-  if(!img){
-    printf("Could not load image file:\n");
-    exit(0);
-  }
- 
-  // get the image data
-  height    = img->height;
-  width     = img->width;
-  step      = img->widthStep;
-  channels  = img->nChannels;
-  data      = (uchar *)img->imageData;
 
-  // create a window
-  cvNamedWindow(destino, CV_WINDOW_AUTOSIZE);
-  cvMoveWindow(destino, 100, 100);    // to move the window to position 100 100.
- 
+void invertir(int height, int width,int channels, int step, uchar * data)
+{
+  int i,j,k;
+  printf("Processing a %dx%d image with %d channels with step %d\n",height,width,channels,step);
+
+
   // invert the image
   for(i=0;i<height;i++)
      for(j=0;j<width/2;j++)
         for(k=0;k<channels;k++)  //loop to read for each channel
            {
             int temp =data[i*step+j*channels+k];
+            //printf("%d\n", temp);
             data[i*step+j*channels+k]=data[i*step+(step-j*channels)+k];    //inverting the image
             data[i*step+(step-j*channels)+k]= temp;
 
            }
+ }
 
+void dibujar(char* destino, IplImage* img)
+{
+    // create a window
+  cvNamedWindow(destino, CV_WINDOW_AUTOSIZE);
+  cvMoveWindow(destino, 100, 100);    // to move the window to position 100 100.
  
-  // show the image
+   // show the image
   
     int p[3];
 
@@ -86,4 +66,4 @@ void invertir(char* origen, char* destino)
   // release the image
   cvReleaseImage(&img );
   cvDestroyWindow(destino);
- }
+}
