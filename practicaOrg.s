@@ -14,7 +14,7 @@
  extern scanf
 
 segment .data
-        msgBienv:	db	'Bienvenido a la practica de organizacion de computadores, ingrese el comando de la operacion deseada', 0AH, ' 1: espejo a lado izquierdo', 0AH, ' 2: espejo a lado derecho', 0AH, ' 3: inversion total de la imagen', 0AH, ' 4: inversion de color', 0AH,0
+        msgBienv:	db	'Bienvenido a la practica de organizacion de computadores, ingrese el comando de la operacion deseada', 0AH, ' 1: espejo a lado izquierdo', 0AH, ' 2: espejo a lado derecho', 0AH, ' 3: inversion total de la imagen', 0AH, ' 4: inversion de color', 0AH, ' 5: invertir la imagen usando la funcion de c', 0AH,0
         arreglo:	dd	185113,32,34,23,4,234,34,5,345,34,5,34,5
         tamArreglo: dd 	52;13*4
         formatoDec: db 'Processing in asm a %dx%d image with %d channels with step %d', 0AH,0
@@ -46,7 +46,7 @@ segment .bss
         comando: resd 1
 
 
- segment .text
+segment .text
 
 _start: 
 
@@ -84,8 +84,8 @@ add rax,40
 mov eax, [rax]
 mov [width],eax
 
-      mov rdi, [width]
-      call dividir
+mov rdi, [width]
+call dividir
 mov [widthMedios],eax 
 
 
@@ -112,8 +112,6 @@ mov rdx, [width]
 mov rcx, [channels]
 mov r8, [step]
 call printf
-
-
 
 mov rdi, formatoDec2
 mov rsi, [data]
@@ -187,17 +185,19 @@ jge fincicloi
           mov ebx, 2
           cmp eax,ebx
           je der
-            je izq
             mov eax, [comando]
             mov ebx, 3
             cmp eax,ebx
             je inv
-              je izq
               mov eax, [comando]
               mov ebx, 4
               cmp eax,ebx
-              je col
-              jmp fincicloi              
+              je col           
+                mov eax, [comando]
+                mov ebx, 5
+                cmp eax,ebx
+                je invC
+                jmp fincicloi 
 
         izq: call espejoAIzq
         jmp finCasos
@@ -206,6 +206,8 @@ jge fincicloi
         inv: call inversionCompletaAsm
         jmp finCasos
         col: call invertirColor
+        jmp finCasos
+        invC: call inversionCompletaC
         jmp fincicloi
 
         finCasos:
@@ -287,7 +289,7 @@ inversionCompletaC:
   mov rdx, [channels]
   mov rcx, [step]
   mov r8, [data]
-  mov rdi , [imagenStruct]
+  ;por alguna razon aqui tenia mov rdi, imagen y me tarde UNA HORA en darme cuenta -_-
   call invertir
   ret
 
