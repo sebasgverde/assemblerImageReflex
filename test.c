@@ -30,16 +30,33 @@ void invertir(int height, int width,int channels, int step, uchar * data)
 
 
   // invert the image
+  height = 3;
+  width = 4;
   for(i=0;i<height;i++)
      for(j=0;j<width/2;j++)
         for(k=0;k<channels;k++)  //loop to read for each channel
            {
             int temp =data[i*step+j*channels+k];
-            //printf("%d\n", temp);
-            data[i*step+j*channels+k]=data[i*step+(step-j*channels)+k];    //inverting the image
-            data[i*step+(step-j*channels)+k]= temp;
+            printf("%d\n", data+(i*step+j*channels+k));
+            printf("%d\n", temp);
+            //data[i*step+j*channels+k]=data[i*step+(step-j*channels)+k];    //inverting the image
+            //data[i*step+(step-j*channels)+k]= temp;
 
            }
+ }
+
+ int dividir(int width)
+ {
+  return width/2;
+ }
+
+ void imprimirBit(uchar * a)
+ {
+
+    //printf("%d\n", a);
+    //printf("%d\n", a[0]);
+
+    a[0] = 255 - a[0];
  }
 
 void dibujar(char* destino, IplImage* img)

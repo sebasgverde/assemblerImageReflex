@@ -9,6 +9,8 @@
  extern invertir
  extern devStruct
  extern dibujar
+ extern dividir
+ extern imprimirBit
 
 segment .data
         msgBienv:	db	'Bienvenido a la practica de organizacion de computadores', 0AH,0
@@ -17,7 +19,10 @@ segment .data
         formatoDec: db 'Processing a %dx%d image with %d channels with step %d', 0AH,0
         formatoDec2: db '%d', 0AH,0
         formatoString: db '%s', 0AH,0
+        formatoByte: db '%b',0AH,0
+        otroFormato: db 'i %d j %d k %d',0AH,0
         archivoNombre: db 'salida.txt',0AH,0;para intentar poner el output en un archivo con fprintf
+        dos: dd 2
 
 
 segment .bss
@@ -25,11 +30,18 @@ segment .bss
         imagen1: resq 1
         imagen2: resq 1
         imagenStruct: resq 1
-  height: resd  1 ; = img->height;
-  width: resd  1     ;= img->width;
-  step: resd  1      ;= img->widthStep;
-  channels: resd  1  ;= img->nChannels;
-  data: resq  1   ;q pues es puntero   = (uchar *)img->imageData;
+        height: resd  1 ; = img->height;
+        width: resd  1     ;= img->width;
+        widthMedios: resd 1
+        step: resd  1      ;= img->widthStep;
+        channels: resd  1  ;= img->nChannels;
+        data: resq  1   ;q pues es puntero   = (uchar *)img->imageData;
+        i:  resd  1
+        j:  resd  1
+        k:  resd  1
+        pos1: resq  1
+        pos2: resq  1
+
 
  segment .text
 
@@ -62,6 +74,11 @@ add rax,40
 mov eax, [rax]
 mov [width],eax
 
+      mov rdi, [width]
+      call dividir
+mov [widthMedios],eax 
+
+
 mov rax, [imagenStruct]
 add rax,96
 mov eax, [rax]
@@ -84,21 +101,110 @@ mov rsi, [height]
 mov rdx, [width]
 mov rcx, [channels]
 mov r8, [step]
-inter:
+
 
 call printf
 
 mov rdi, formatoDec2
 mov rsi, [data]
+          
+
 call printf
+
 
 mov rdi, [height]
 mov rsi, [width]
 mov rdx, [channels]
 mov rcx, [step]
 mov r8, [data]
-;mov rdi , [imagenStruct]
+mov rdi , [imagenStruct]
 call invertir
+
+
+
+mov dword [i],0
+cicloi:
+mov eax,[i]
+mov ebx, [height]
+cmp eax,ebx
+jge fincicloi
+  mov dword [j],0
+  cicloj:
+  mov eax,[j]
+  mov ebx,[widthMedios]
+  cmp eax,ebx
+  jge fincicloj
+    mov dword [k],0
+    ciclok:
+    mov eax,[k]
+    mov ebx, [channels]
+    cmp eax,ebx
+    jge finciclok
+      mov rdi, otroFormato
+      mov rsi, [i]
+      mov rdx, [j]
+      mov rcx, [k]
+      call printf
+
+      ;---cambio-----
+
+      mov rax, [data]
+      ;mov [pos1], rax
+      mov qword [pos1], 0
+      mov [pos2], rax
+
+
+
+
+      mov edx,0
+      mov eax, [i]
+      mul dword [step]
+      add eax, [k]
+
+      add [pos1], eax
+      ;add [pos2], rdi
+
+
+
+
+
+
+      mov edx,0
+      mov eax, [j]
+      mul dword [channels]
+      mov edi, eax
+
+      add [pos1], edi
+      mov rax, [data]
+      add [pos1], rax
+
+
+      mov rdi,[pos1]
+      call imprimirBit
+
+      ;mov rax, [pos1]
+      ;mov byte [rax],0
+
+      ;mov eax,[step]
+      ;sub eax, edi
+
+      ;add [pos2],eax
+
+
+
+
+      ;--------------
+
+      inc dword [k]
+    jmp ciclok
+    finciclok:
+          inc dword [j]
+  jmp cicloj
+  fincicloj:
+        inc dword [i]
+jmp cicloi
+fincicloi:
+
 
 
 
